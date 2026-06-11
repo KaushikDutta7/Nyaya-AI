@@ -9,6 +9,7 @@ from agents import (
 from core.models import AgentState, CaseInput
 import time
 from dotenv import load_dotenv
+from typing import Optional
 
 load_dotenv()
  
@@ -48,7 +49,7 @@ class NyayAIPipeline:
                     time.sleep(5)
         raise Exception(f"{name} failed after {retries} attempts")
 
-    def run_from_text(self, case_description: str, court_type: str = None):
+    def run_from_text(self, case_description: str, court_type: Optional[str] = None):
         print("\n🚀 NyayAI Pipeline Starting...\n")
 
         if not case_description or len(case_description.strip()) < 10:
@@ -70,7 +71,7 @@ class NyayAIPipeline:
         print("\n✅ Pipeline Complete!\n")
         return state.final_report
 
-    def run_from_pdf(self, pdf_path: str, court_type: str = None):
+    def run_from_pdf(self, pdf_path: str, court_type: Optional[str] = None):
         print("\n🚀 NyayAI Pipeline Starting from PDF...\n")
 
         if not pdf_path or not pdf_path.endswith(".pdf"):
