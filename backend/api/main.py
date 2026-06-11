@@ -1,5 +1,6 @@
 import os
 import shutil
+from typing import Optional
 from fastapi import FastAPI, UploadFile, File, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -75,6 +76,11 @@ def analyze_text(request: TextRequest, db: Session = Depends(get_db)):
         report = pipeline.run_from_text(
             case_description=request.description, court_type=request.court_type
         )
+
+        db.query(Case).filter(Case.id == case_id).update({
+            "final_report": report,
+            "status": StatusType.completed
+        })
         case.final_report = report
         case.status = StatusType.completed
         db.commit()
