@@ -1,8 +1,9 @@
-google-generativeai
+google-genai
 langgraph
 fastapi
-uvicorn
+uvicorn[standard]
 requests
 python-dotenv
 pydantic
 SQLAlchemy
+pdfplumber
