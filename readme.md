@@ -9,8 +9,8 @@ An AI-powered legal research assistant that analyzes legal cases, retrieves rele
 </div>
 
 ---
-
-# 📖 Overview
+![NyayAI Home Page](Images/NyayAI_home_page.png)
+# Overview
 
 NyayaAI is an AI-powered legal research platform designed to simplify legal analysis within the Indian judicial system.
 
@@ -20,39 +20,39 @@ The platform assists lawyers, law students, researchers, and legal professionals
 
 ---
 
-# ✨ Key Features
+# Key Features
 
-### 📚 Intelligent Legal Research
+### Intelligent Legal Research
 - Semantic search over Indian court judgments
 - Retrieves relevant precedents using vector similarity search
 - Context-aware legal reasoning
 
-### 🤖 Multi-Agent AI Pipeline
+### Multi-Agent AI Pipeline
 Four specialized AI agents collaborate to solve legal problems:
 
-### 🔍 Agent 1 — Precedent Hunter
+### Agent 1 — Precedent Hunter
 - Searches similar judgments
 - Retrieves relevant legal precedents
 - Uses semantic vector search
 
-### 📝 Agent 2 — Argument Drafter
+### Agent 2 — Argument Drafter
 - Generates structured legal arguments
 - Supports both plaintiff and defendant perspectives
 - Uses retrieved precedents as context
 
-### ⚖️ Agent 3 — Outcome Predictor
+### Agent 3 — Outcome Predictor
 - Predicts possible judicial outcomes
 - Estimates likelihood of success
 - Provides legal reasoning
 
-### 👨‍⚖️ Agent 4 — Judge Profiler
+### Agent 4 — Judge Profiler
 - Generates judge-specific insights
 - Provides advocacy recommendations
 - Suggests courtroom strategy
 
 ---
 
-# 🏗️ System Architecture
+# System Architecture
 
 ```
                  User Case Description
@@ -98,7 +98,7 @@ Four specialized AI agents collaborate to solve legal problems:
 
 ---
 
-# 🛠 Tech Stack
+# Tech Stack
 
 ## Frontend
 
@@ -132,7 +132,7 @@ Four specialized AI agents collaborate to solve legal problems:
 
 ---
 
-# 🚀 Installation
+# Installation
 
 ## Clone Repository
 
@@ -198,7 +198,7 @@ http://localhost:5173
 
 ---
 
-# 📂 Project Structure
+# Project Structure
 
 ```
 NyayaAI/
@@ -223,7 +223,7 @@ NyayaAI/
 
 ---
 
-# 💡 Workflow
+# Workflow
 
 1. User submits a legal case.
 2. Case is sent to FastAPI.
@@ -235,7 +235,7 @@ NyayaAI/
 
 ---
 
-# 🎯 Use Cases
+# Use Cases
 
 - Legal Research
 - Case Preparation
@@ -246,7 +246,7 @@ NyayaAI/
 
 ---
 
-# 🔮 Future Improvements
+# Future Improvements
 
 - PDF judgment upload
 - Citation verification
