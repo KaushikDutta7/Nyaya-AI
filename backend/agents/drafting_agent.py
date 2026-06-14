@@ -37,7 +37,7 @@ class DraftingAgent:
         7. Conclusion
         """
         response = self.client.models.generate_content(
-            model="gemini-1.5-flash", contents=prompt
+            model="gemini-2.0-flash-lite", contents=prompt
         )
         state.final_report = response.text
         print("✅ Report drafted successfully")

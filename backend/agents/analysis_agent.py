@@ -34,7 +34,7 @@ class AnalysisAgent:
         4. Any conflicting judgements to be aware of
         """
         response = self.client.models.generate_content(
-            model="gemini-1.5-flash", contents=prompt
+            model="gemini-2.0-flash-lite", contents=prompt
         )
         state.analysis = response.text
         print("✅ Analysis complete")
