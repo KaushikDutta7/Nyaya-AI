@@ -4,6 +4,7 @@ import json
 import uuid
 from typing import Optional
 from datetime import datetime, timedelta
+from urllib.parse import quote
 from fastapi import FastAPI, UploadFile, File, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
@@ -200,9 +201,37 @@ def create_case(request: NewCaseRequest, db: Session = Depends(get_db)):
             full_text = f"{request.description}\n\nPurpose: {request.purpose}"
             result = pipeline.run_from_text(case_description=full_text, court_type=None)
             case.final_report = result.get("argument", "")
-            case.analysis = result.get("outcome", {}).get("risk", "")
             case.status = StatusType.completed
             db.commit()
+
+            # Dedicated rich-analysis pass — separate from the truncated
+            # prediction-agent snippet, so the case gets a proper brief.
+            try:
+                analysis_prompt = f"""
+                You are a senior Indian litigation strategist preparing a case brief.
+
+                Case Name: {request.name}
+                Purpose: {request.purpose}
+                Description: {request.description}
+                Prior Research Findings: {case.final_report or "None yet"}
+
+                Write a thorough case analysis covering, in this order:
+                1. Key facts and legal issues at stake
+                2. Relevant laws, sections, or precedents that apply
+                3. Strengths in the client's position
+                4. Weaknesses or risks to watch for
+                5. Recommended next steps for the lawyer
+
+                Write in clear prose with short paragraphs per section (use
+                the numbered headings above as section titles). Be specific
+                to THIS case's facts, not generic legal commentary.
+                """
+                case.analysis = generate_text(analysis_prompt)
+                db.commit()
+            except Exception:
+                # fall back to whatever the pipeline's prediction produced
+                case.analysis = result.get("outcome", {}).get("risk", "")
+                db.commit()
     except Exception as e:
         case.status = StatusType.failed
         case.error_message = str(e)
@@ -213,8 +242,34 @@ def create_case(request: NewCaseRequest, db: Session = Depends(get_db)):
 
 @app.get("/case/{case_id}/hearings")
 def list_hearings(case_id: str, db: Session = Depends(get_db)):
+    case = db.query(Case).filter(Case.id == case_id).first()
     hearings = db.query(CaseHearing).filter(CaseHearing.case_id == case_id).order_by(CaseHearing.hearing_date).all()
-    return [{"id": h.id, "hearing_date": h.hearing_date.isoformat(), "note": h.note} for h in hearings]
+
+    def google_link(h):
+        start = h.hearing_date
+        end = start + timedelta(hours=1)
+        fmt = lambda dt: dt.strftime("%Y%m%dT%H%M%S")
+        title = (case.name if case else None) or "Court Hearing"
+        details = (case.purpose if case else "") or ""
+        params = {
+            "action": "TEMPLATE",
+            "text": f"Hearing — {title}",
+            "dates": f"{fmt(start)}/{fmt(end)}",
+            "details": f"{details}\nCase ID: {case_id}",
+        }
+        query = "&".join(f"{k}={quote(str(v))}" for k, v in params.items())
+        return f"https://calendar.google.com/calendar/render?{query}"
+
+    return [
+        {
+            "id": h.id,
+            "hearing_date": h.hearing_date.isoformat(),
+            "note": h.note,
+            "google_calendar_url": google_link(h),
+            "ics_url": f"/case/{case_id}/hearings/{h.id}/calendar.ics",
+        }
+        for h in hearings
+    ]
 
 
 @app.get("/case/{case_id}/hearings/{hearing_id}/calendar.ics")

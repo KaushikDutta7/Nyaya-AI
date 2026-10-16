@@ -36,8 +36,6 @@ export default function LandingPage() {
     setPdfFile(file)
     const reader = new FileReader()
     reader.onload = (evt) => {
-      // In production, send PDF to backend for text extraction
-      // For demo, just set a placeholder
       setCaseText(prev => prev || `[PDF uploaded: ${file.name}] Case details extracted from document.`)
     }
     reader.readAsDataURL(file)
@@ -52,10 +50,8 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-ink grain relative overflow-hidden">
-      {/* Background grid */}
       <div className="absolute inset-0 bg-grid opacity-60 pointer-events-none" />
 
-      {/* Radial glow at center */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -82,17 +78,35 @@ export default function LandingPage() {
             </span>
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-6">
-          <span className="font-ui text-xs font-medium tracking-widest uppercase" style={{ color: 'rgba(240,236,228,0.3)' }}>
-            5 Crore Cases Pending in India
-          </span>
-        </div>
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="flex items-center gap-2 font-ui text-xs font-medium tracking-wide px-4 py-2.5 rounded-lg transition-all duration-200"
+          style={{
+            color: '#C8A951',
+            border: '1px solid rgba(200,169,81,0.3)',
+            background: 'rgba(200,169,81,0.06)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(200,169,81,0.12)'
+            e.currentTarget.style.borderColor = 'rgba(200,169,81,0.5)'
+            e.currentTarget.style.transform = 'translateY(-1px)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(200,169,81,0.06)'
+            e.currentTarget.style.borderColor = 'rgba(200,169,81,0.3)'
+            e.currentTarget.style.transform = 'translateY(0)'
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+            <rect x="9" y="3" width="6" height="4" rx="1" />
+          </svg>
+          Manage My Cases
+        </button>
       </nav>
 
-      {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4">
 
-        {/* 3D canvas — positioned right */}
         <div
           className="absolute pointer-events-none"
           style={{
@@ -102,13 +116,11 @@ export default function LandingPage() {
           }}
         />
 
-        {/* Hero text */}
         <div
           className="text-center mb-10"
           style={{ animation: 'fadeUp 0.7s ease both' }}
         >
           <div className="flex items-center justify-center gap-4 mb-3">
-            {/* 3D animated poly icon */}
             <div style={{ animation: 'floatBadge 5s ease-in-out infinite', animationDelay: '0s' }}>
               <PolyCanvas size={64} />
             </div>
@@ -133,9 +145,20 @@ export default function LandingPage() {
             Describe any legal case. Four autonomous AI agents will search precedents,
             draft arguments, predict outcomes, and profile the bench — in seconds.
           </p>
+
+          <div
+            className="inline-flex items-center gap-1.5 mt-4 px-3 py-1 rounded-full"
+            style={{
+              border: '1px solid rgba(240,236,228,0.08)',
+              animation: 'fadeUp 0.7s ease 0.2s both',
+            }}
+          >
+            <span className="font-ui text-xs font-medium tracking-widest uppercase" style={{ color: 'rgba(240,236,228,0.3)' }}>
+              5 Crore Cases Pending in India
+            </span>
+          </div>
         </div>
 
-        {/* Input container — Claude-style */}
         <div
           className="w-full max-w-2xl input-focus-ring"
           style={{
@@ -149,7 +172,6 @@ export default function LandingPage() {
             animation: 'fadeUp 0.7s ease 0.25s both',
           }}
         >
-          {/* PDF attachment banner */}
           {pdfFile && (
             <div
               className="flex items-center gap-3 px-4 py-2.5 mx-3 mt-3 rounded-lg"
@@ -169,7 +191,6 @@ export default function LandingPage() {
             </div>
           )}
 
-          {/* Textarea */}
           <textarea
             ref={textareaRef}
             value={caseText}
@@ -196,13 +217,11 @@ export default function LandingPage() {
             }}
           />
 
-          {/* Toolbar row */}
           <div
             className="flex items-center justify-between px-3 pb-3 pt-1"
             style={{ borderTop: '1px solid rgba(240,236,228,0.05)', marginTop: '4px' }}
           >
             <div className="flex items-center gap-2">
-              {/* PDF upload */}
               <input
                 ref={fileRef}
                 type="file"
@@ -235,7 +254,6 @@ export default function LandingPage() {
                 Attach PDF
               </button>
 
-              {/* Judge name */}
               <div
                 className="flex items-center gap-2 px-3 py-2 rounded-lg"
                 style={{ border: '1px solid rgba(240,236,228,0.07)' }}
@@ -257,7 +275,6 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Submit */}
             <button
               onClick={handleSubmit}
               disabled={!canSubmit}
@@ -283,9 +300,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <button onClick={() => navigate('/dashboard')}>Manage My Cases</button>
-
-        {/* Example cases */}
         <div
           className="w-full max-w-2xl mt-5"
           style={{ animation: 'fadeUp 0.7s ease 0.35s both' }}
@@ -325,7 +339,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Agent capabilities pills */}
         <div
           className="flex flex-wrap items-center justify-center gap-2 mt-8"
           style={{ animation: 'fadeUp 0.7s ease 0.45s both' }}
@@ -353,7 +366,6 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Keyboard hint */}
         <p
           className="font-ui mt-5"
           style={{
@@ -362,7 +374,6 @@ export default function LandingPage() {
             animation: 'fadeIn 0.7s ease 0.6s both',
           }}
         >
-          
         </p>
       </div>
     </div>
