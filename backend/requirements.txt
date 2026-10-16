@@ -8,4 +8,5 @@ pydantic
 SQLAlchemy
 pdfplumber
 groq
-psycopg2-binarypython-multipart
+psycopg2-binary
+python-multipart
