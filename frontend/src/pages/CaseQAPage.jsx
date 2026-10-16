@@ -122,7 +122,7 @@ export default function CaseQAPage() {
                         {new Date(h.hearing_date).toLocaleString()}
                       </span>
                       <div className="flex items-center gap-3">
-                        
+                        <a
                           href={h.google_calendar_url}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export default function CaseQAPage() {
                         >
                           Google Calendar
                         </a>
-                        
+                        <a
                           href={`${API_URL}${h.ics_url}`}
                           className="font-ui text-xs font-medium"
                           style={{ color: '#C8A951' }}

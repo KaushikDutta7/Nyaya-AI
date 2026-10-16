@@ -300,6 +300,7 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* Example cases */}
         <div
           className="w-full max-w-2xl mt-5"
           style={{ animation: 'fadeUp 0.7s ease 0.35s both' }}

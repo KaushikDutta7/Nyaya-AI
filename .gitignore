@@ -1,16 +1,13 @@
-# Environments
-.env
-.env.local
-.venv
-
-# Python
+backend/.env
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.db
+frontend/node_modules/
+frontend/dist/
 __pycache__/
-*.pyc
-
-# Node
+*.py[cod]
+desktop.ini
+.DS_Store*.db
 node_modules/
-dist/
-
-# OS
-.DS_Store
-
+.env
+__pycache__/
