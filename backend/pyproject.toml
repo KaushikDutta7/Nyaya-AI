@@ -1,0 +1,18 @@
+[project]
+name = "nyayai-backend"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "google-genai",
+  "langgraph",
+  "fastapi[standard]",
+  "uvicorn",
+  "requests",
+  "python-dotenv",
+  "pydantic",
+  "SQLAlchemy",
+  "pdfplumber",
+  "groq",
+  "psycopg2-binary",
+  "python-multipart",
+]
